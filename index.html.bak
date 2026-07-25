@@ -82,45 +82,6 @@
   }
   .feature-btn .icon { font-size: 1.6em; display: block; margin-bottom: 4px; }
   .feature-btn .label { font-size: 0.85em; }
-  /* Download Section */
-  .download-section {
-    margin-top: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-  .download-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 32px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 12px;
-    font-size: 1.05em;
-    font-weight: 700;
-    box-shadow: 0 8px 22px rgba(124, 58, 237, 0.4);
-    transition: all 0.25s ease;
-    border: 1px solid rgba(255,255,255,0.15);
-  }
-  .download-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(124, 58, 237, 0.55);
-    filter: brightness(1.1);
-  }
-  .download-btn .arrow { font-size: 1.2em; transition: transform 0.2s; }
-  .download-btn:hover .arrow { transform: translateX(3px); }
-  .download-meta {
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    justify-content: center;
-    font-size: 0.82em;
-    color: var(--text-muted);
-  }
-  .download-meta span::before { content: '✓'; color: #10B981; margin-right: 3px; font-weight: bold; }
   .panel {
     background: var(--card);
     border: 1px solid var(--border);
@@ -241,19 +202,6 @@
       <span class="badge">⚡ 即开即用</span>
       <span class="badge">🌐 离线可用</span>
       <span class="badge">💯 完全免费</span>
-    </div>
-    <div class="download-section">
-      <a class="download-btn" href="./PDF%E5%85%A8%E8%83%BD%E5%B7%A5%E5%85%B7%E7%AE%B1Pro.exe" download="PDF%E5%85%A8%E8%83%BD%E5%B7%A5%E5%85%B7%E7%AE%B1Pro.exe">
-        <span>📥</span>
-        <span>下载 Windows 桌面版（30MB · 离线使用）</span>
-        <span class="arrow">→</span>
-      </a>
-      <div class="download-meta">
-        <span>无需联网</span>
-        <span>AES 真加密</span>
-        <span>批量无限制</span>
-        <span>终身免费更新</span>
-      </div>
     </div>
   </header>
 
