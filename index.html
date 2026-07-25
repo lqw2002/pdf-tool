@@ -197,6 +197,20 @@
     
     #paymentPanel.active { display: flex; }
     
+    #exePanel {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    #exePanel.active { display: flex; }
+    
     .payment-modal {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -750,7 +764,7 @@
     <div class="logo"><i class="fas fa-file-pdf"></i>PDF全能工具箱Pro</div>
     <div class="nav-links">
       <a href="#tools">全部工具</a>
-      <a href="https://github.com/lqw2002/pdf-tool/releases" target="_blank">下载桌面版</a>
+      <a href="javascript:void(0)" onclick="openExePayment()" style="cursor:pointer;">下载桌面版</a>
       <button class="pro-badge" onclick="openPayment()">
         <i class="fas fa-crown"></i> 开通VIP
       </button>
@@ -866,6 +880,46 @@
     </div>
   </div>
   
+  <!-- EXE Download Payment Panel -->
+  <div id="exePanel">
+    <div class="payment-modal">
+      <button class="close-btn" onclick="closeExePayment()"><i class="fas fa-times"></i></button>
+      
+      <h2>购买桌面版 Pro</h2>
+      <p class="subtitle">一次性买断 · 全功能 · Windows 专用</p>
+      
+      <div class="plan highlighted" style="cursor:default;">
+        <div class="plan-icon" style="background:rgba(59,130,246,0.15);color:var(--accent);"><i class="fas fa-desktop"></i></div>
+        <div class="plan-info">
+          <div class="plan-name">PDF全能工具箱 Pro</div>
+          <div class="plan-desc">含AES加密、OCR、Word互转等全部功能</div>
+        </div>
+        <div class="plan-price">¥19.9</div>
+      </div>
+      
+      <div class="email-section">
+        <label>您的邮箱（付款后用于接收下载链接）</label>
+        <input type="email" id="exeEmail" placeholder="请输入邮箱，管理员确认后发送下载链接">
+      </div>
+      
+      <div class="qr-section" id="exeQrSection" style="display:none;">
+        <p style="font-size:14px;margin-bottom:12px;color:var(--text-dim);">请使用微信扫描下方收款码</p>
+        <img id="exeQrImage" src="wechat-qr.jpg" alt="微信收款码">
+        <p class="qr-hint">转账金额：<strong id="exeQrAmount" style="color:var(--accent);font-size:18px;"></strong> 元</p>
+        <p class="qr-hint" style="margin-top:4px;">备注填写：<strong id="exeQrNote" style="color:var(--text);font-size:13px;"></strong></p>
+      </div>
+      
+      <button class="confirm-btn" id="exeConfirmBtn" onclick="confirmExePayment()">
+        <i class="fas fa-qrcode"></i> 生成收款码
+      </button>
+      
+      <p class="note">
+        💬 支付后联系微信天道(天道PDF工具)确认<br>
+        管理员将在24小时内发送下载链接到您的邮箱
+      </p>
+    </div>
+  </div>
+  
   <!-- Tool Modal -->
   <div id="toolModal">
     <div class="modal-content">
@@ -908,7 +962,7 @@
   
   <footer>
     <p>© 2025 PDF全能工具箱 · <a href="https://github.com/lqw2002/pdf-tool" target="_blank">GitHub</a> · 
-      <a href="https://github.com/lqw2002/pdf-tool/releases" target="_blank">下载桌面版</a></p>
+      <a href="javascript:void(0)" onclick="openExePayment()">下载桌面版</a></p>
     <p style="margin-top:8px;font-size:12px;">永久免费 · 开源项目 · 欢迎Star ⭐</p>
   </footer>
   
@@ -995,6 +1049,29 @@
       document.getElementById('qrSection').style.display = 'block';
       document.getElementById('confirmBtn').innerHTML = '<i class="fab fa-weixin"></i> 请用微信扫码支付 ¥' + selectedPlan;
       document.getElementById('confirmBtn').disabled = true;
+    }
+    
+    // ========== EXE Download Payment ==========
+    function openExePayment() {
+      document.getElementById('exePanel').classList.add('active');
+      document.getElementById('exeQrSection').style.display = 'none';
+      document.getElementById('exeConfirmBtn').innerHTML = '<i class="fas fa-qrcode"></i> 生成收款码';
+      document.getElementById('exeConfirmBtn').disabled = false;
+    }
+    
+    function closeExePayment() {
+      document.getElementById('exePanel').classList.remove('active');
+    }
+    
+    function confirmExePayment() {
+      const email = document.getElementById('exeEmail').value.trim();
+      if (!email || !email.includes('@')) { showToast('请输入有效的邮箱地址', 'error'); return; }
+      document.getElementById('exeQrImage').src = 'wechat-qr.jpg?' + Date.now();
+      document.getElementById('exeQrAmount').textContent = '¥19.9';
+      document.getElementById('exeQrNote').textContent = email;
+      document.getElementById('exeQrSection').style.display = 'block';
+      document.getElementById('exeConfirmBtn').innerHTML = '<i class="fab fa-weixin"></i> 请用微信扫码支付 ¥19.9';
+      document.getElementById('exeConfirmBtn').disabled = true;
     }
     
     // ========== Tool Modal ==========
@@ -1138,6 +1215,7 @@
       if (e.key === 'Escape') {
         closePayment();
         closeToolModal();
+        closeExePayment();
       }
     });
   </script>
