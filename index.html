@@ -70,6 +70,54 @@
         }
         .badge.green { background:rgba(16,185,129,0.12); border-color:rgba(16,185,129,0.3); color:#34D399; }
         .badge.orange { background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.3); color:#FBBF24; }
+        /* Download Section */
+        .download-section {
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 36px;
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 700;
+            box-shadow: 0 8px 24px rgba(99,102,241,0.4);
+            transition: all 0.25s ease;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(99,102,241,0.55);
+            filter: brightness(1.08);
+        }
+        .download-btn .arrow { font-size: 1.3em; transition: transform 0.2s; }
+        .download-btn:hover .arrow { transform: translateX(3px); }
+        .download-meta {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .download-meta span::before { content: '✓'; color: #10B981; margin-right: 4px; font-weight: bold; }
+        .donate-row {
+            margin-top: 6px;
+            padding: 10px 18px;
+            background: rgba(245,158,11,0.08);
+            border: 1px solid rgba(245,158,11,0.25);
+            border-radius: 30px;
+            color: #FBBF24;
+            font-size: 0.9em;
+        }
 
         /* Features Grid */
         .features {
@@ -297,8 +345,22 @@
             <p>免费在线PDF处理工具 - 无需注册 - 文件本地处理</p>
             <div class="badges">
                 <span class="badge green">完全免费</span>
-                <span class="badge">10+ 功能</span>
+                <span class="badge">12 项功能</span>
                 <span class="badge orange">本地处理保护隐私</span>
+            </div>
+            <div class="download-section">
+                <a class="download-btn" href="./PDF全能工具箱Pro.exe" download="PDF全能工具箱Pro.exe">
+                    <span>📥</span>
+                    <span>下载 Windows 桌面版</span>
+                    <span class="arrow">→</span>
+                </a>
+                <div class="download-meta">
+                    <span>EXE 离线运行</span>
+                    <span>AES 真加密</span>
+                    <span>终身免费更新</span>
+                    <span>文件不上传</span>
+                </div>
+                <div class="donate-row">💖 觉得好用？扫码支持开发者继续创作 →</div>
             </div>
         </div>
 
