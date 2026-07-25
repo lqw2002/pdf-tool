@@ -1,46 +1,1003 @@
-📄 PDF 全能工具箱
-10 个 PDF 工具 · 纯浏览器运行 · 文件不出本地 · 完全免费
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF 全能工具箱 · Pure Browser Edition</title>
+<meta name="description" content="10 个 PDF 工具，纯浏览器运行，无需上传，文件不出本地">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%237c3aed' d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath fill='%23fff' d='M14 2v6h6'/%3E%3Ctext x='12' y='18' font-size='8' text-anchor='middle' fill='%237c3aed' font-weight='bold'%3EPDF%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --primary: #7c3aed;
+    --primary-dark: #6d28d9;
+    --secondary: #06b6d4;
+    --bg: #0f0f23;
+    --bg-2: #1a1a3e;
+    --card: rgba(255,255,255,0.05);
+    --border: rgba(255,255,255,0.1);
+    --text: #fff;
+    --text-2: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(at 20% 30%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 70%, rgba(6, 182, 212, 0.15) 0px, transparent 50%);
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+  header { text-align: center; padding: 40px 0 30px; }
+  h1 {
+    font-size: 3em;
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+  }
+  .subtitle { color: var(--text-2); font-size: 1.1em; margin-bottom: 20px; }
+  .badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
+  .badge {
+    background: rgba(124, 58, 237, 0.2);
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    color: #c4b5fd;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+  }
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 30px 0;
+  }
+  .feature-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 16px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+    font-family: inherit;
+  }
+  .feature-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.2);
+  }
+  .feature-btn.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-color: transparent;
+  }
+  .feature-btn .icon { font-size: 1.8em; display: block; margin-bottom: 5px; }
+  .feature-btn.new { border-color: rgba(6, 182, 212, 0.5); }
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .panel h2 { color: var(--primary); margin-bottom: 20px; font-size: 1.5em; }
+  .form-group { margin-bottom: 18px; }
+  label { display: block; margin-bottom: 8px; color: var(--text-2); font-size: 0.95em; }
+  input[type="file"], input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 0.95em;
+    font-family: inherit;
+  }
+  input[type="file"]::file-selector-button {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-family: inherit;
+  }
+  button.action {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.05em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+    font-family: inherit;
+  }
+  button.action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+  }
+  button.action:active { transform: translateY(0); }
+  .radio-group { display: flex; gap: 15px; margin: 10px 0; flex-wrap: wrap; }
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text);
+    cursor: pointer;
+    margin: 0;
+  }
+  .status {
+    margin-top: 20px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #86efac;
+    display: none;
+  }
+  .status.error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+  }
+  .progress {
+    margin-top: 15px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 32px;
+    border: 1px solid var(--border);
+    display: none;
+  }
+  #progressBar {
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    text-align: center;
+    line-height: 32px;
+    font-size: 0.9em;
+    transition: width 0.3s;
+    min-width: 80px;
+    white-space: nowrap;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .small { font-size: 0.85em; color: var(--text-2); margin-top: 8px; }
+  textarea {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    min-height: 200px;
+    font-family: monospace;
+    font-size: 0.85em;
+    resize: vertical;
+  }
+  .info {
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+    color: #67e8f9;
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+  .info strong { color: #22d3ee; }
+  .new-badge {
+    background: linear-gradient(135deg, #06b6d4, #22d3ee);
+    color: white;
+    font-size: 0.7em;
+    padding: 2px 6px;
+    border-radius: 8px;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+  @media (max-width: 600px) {
+    h1 { font-size: 2em; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .panel { padding: 20px; }
+    .features { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📄 PDF 全能工具箱</h1>
+    <p class="subtitle">10 个 PDF 工具 · 纯浏览器运行 · 文件不出本地 · 完全免费</p>
+    <div class="badges">
+      <span class="badge">🔒 隐私安全</span>
+      <span class="badge">⚡ 即开即用</span>
+      <span class="badge">🌐 离线可用</span>
+      <span class="badge">💯 完全免费</span>
+      <span class="badge">🆕 含 Word 互转</span>
+    </div>
+  </header>
 
-🔒 隐私安全
-⚡ 即开即用
-🌐 离线可用
-💯 完全免费
-🆕 含 Word 互转
+  <div class="features">
+    <button class="feature-btn" data-feature="merge"><span class="icon">📚</span>PDF合并</button>
+    <button class="feature-btn" data-feature="split"><span class="icon">✂️</span>PDF拆分</button>
+    <button class="feature-btn" data-feature="pdf2img"><span class="icon">🖼️</span>PDF转图片</button>
+    <button class="feature-btn" data-feature="img2pdf"><span class="icon">📷</span>图片转PDF</button>
+    <button class="feature-btn" data-feature="rotate"><span class="icon">🔄</span>PDF旋转</button>
+    <button class="feature-btn" data-feature="protect"><span class="icon">🔒</span>PDF保护</button>
+    <button class="feature-btn" data-feature="extract"><span class="icon">📝</span>文本提取</button>
+    <button class="feature-btn new" data-feature="word2pdf"><span class="icon">📄➡️📕</span>Word转PDF<span class="new-badge">NEW</span></button>
+    <button class="feature-btn new" data-feature="pdf2word"><span class="icon">📕➡️📄</span>PDF转Word<span class="new-badge">NEW</span></button>
+    <button class="feature-btn" data-feature="info"><span class="icon">ℹ️</span>使用说明</button>
+  </div>
 
-📚
-PDF合并
+  <div class="info">
+    <strong>💡 Pure Browser Edition:</strong> 所有处理都在你的浏览器中完成，<strong>文件不会上传到任何服务器</strong>。关闭页面后数据即消失，最大限度保护你的隐私。
+  </div>
 
-✂️
-PDF拆分
+  <div class="panel" id="merge" style="display:none">
+    <h2>📚 PDF 合并</h2>
+    <div class="form-group">
+      <label>选择2个或多个PDF文件</label>
+      <input type="file" id="mergeFiles" accept=".pdf,application/pdf" multiple>
+    </div>
+    <button class="action" id="mergeBtn">开始合并</button>
+  </div>
 
-🖼️
-PDF转图片
+  <div class="panel" id="split" style="display:none">
+    <h2>✂️ PDF 拆分</h2>
+    <div class="form-group">
+      <label>选择PDF文件</label>
+      <input type="file" id="splitFile" accept=".pdf,application/pdf">
+    </div>
+    <div class="form-group">
+      <label>拆分方式</label>
+      <div class="radio-group">
+        <label><input type="radio" name="splitMode" value="single" checked>每页一个文件</label>
+        <label><input type="radio" name="splitMode" value="range">按范围拆分</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>范围（仅按范围时使用，例如：1-3,5,7-9）</label>
+      <input type="text" id="splitRanges" placeholder="例如：1-3,5,7-9">
+    </div>
+    <button class="action" id="splitBtn">开始拆分</button>
+  </div>
 
-📷
-图片转PDF
+  <div class="panel" id="pdf2img" style="display:none">
+    <h2>🖼️ PDF 转图片</h2>
+    <div class="form-group">
+      <label>选择PDF文件</label>
+      <input type="file" id="pdf2imgFile" accept=".pdf,application/pdf">
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label>输出格式</label>
+        <select id="imgFormat">
+          <option value="png">PNG (高清)</option>
+          <option value="jpg">JPG (小体积)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>分辨率 (DPI)</label>
+        <input type="number" id="imgDpi" value="150" min="72" max="300">
+      </div>
+    </div>
+    <button class="action" id="pdf2imgBtn">开始转换</button>
+  </div>
 
-🔄
-PDF旋转
+  <div class="panel" id="img2pdf" style="display:none">
+    <h2>📷 图片转 PDF</h2>
+    <div class="form-group">
+      <label>选择一张或多张图片</label>
+      <input type="file" id="img2pdfFiles" accept="image/*" multiple>
+    </div>
+    <button class="action" id="img2pdfBtn">开始转换</button>
+  </div>
 
-🔒
-PDF保护
+  <div class="panel" id="rotate" style="display:none">
+    <h2>🔄 PDF 旋转</h2>
+    <div class="form-group">
+      <label>选择PDF文件</label>
+      <input type="file" id="rotateFile" accept=".pdf,application/pdf">
+    </div>
+    <div class="form-group">
+      <label>旋转角度</label>
+      <div class="radio-group">
+        <label><input type="radio" name="rotAngle" value="90" checked>90°</label>
+        <label><input type="radio" name="rotAngle" value="180">180°</label>
+        <label><input type="radio" name="rotAngle" value="270">270°</label>
+      </div>
+    </div>
+    <button class="action" id="rotateBtn">开始旋转</button>
+  </div>
 
-📝
-文本提取
+  <div class="panel" id="protect" style="display:none">
+    <h2>🔒 PDF 保护</h2>
+    <div class="form-group">
+      <label>选择PDF文件</label>
+      <input type="file" id="protectFile" accept=".pdf,application/pdf">
+    </div>
+    <div class="form-group">
+      <label>保护密码（仅作标记用）</label>
+      <input type="text" id="protectPwd" placeholder="例如：MySecret123">
+    </div>
+    <p class="small">⚠️ 浏览器版本限制：仅添加可见水印标记。如需完整AES加密，请下载本地 <strong>PDF全能工具箱Pro.exe</strong> 版本。</p>
+    <button class="action" id="encryptBtn">添加保护</button>
+  </div>
 
-📄➡️📕
-Word转PDFNEW
+  <div class="panel" id="extract" style="display:none">
+    <h2>📝 文本提取</h2>
+    <div class="form-group">
+      <label>选择PDF文件</label>
+      <input type="file" id="extractFile" accept=".pdf,application/pdf">
+    </div>
+    <button class="action" id="extractBtn">开始提取</button>
+    <div class="form-group" style="margin-top:20px">
+      <label>提取结果（同时下载TXT文件）</label>
+      <textarea id="extractResult" readonly style="display:none"></textarea>
+    </div>
+  </div>
 
-📕➡️📄
-PDF转WordNEW
+  <div class="panel" id="word2pdf" style="display:none">
+    <h2>📄 Word 转 PDF <span class="new-badge">NEW</span></h2>
+    <div class="form-group">
+      <label>选择 .docx 文件</label>
+      <input type="file" id="word2pdfFile" accept=".docx">
+    </div>
+    <p class="small">✅ 浏览器版采用 canvas 渲染方式，<strong>保留字体、中文、段落格式</strong>。<br>⚠️ 复杂表格/图片按视觉位置渲染，可能与原文档有细微差异。</p>
+    <button class="action" id="word2pdfBtn">转换为 PDF</button>
+  </div>
 
-ℹ️
-使用说明
-💡 Pure Browser Edition: 所有处理都在你的浏览器中完成，文件不会上传到任何服务器。关闭页面后数据即消失，最大限度保护你的隐私。
-📚 PDF 合并
-选择2个或多个PDF文件
-未选择文件
-开始合并
-💜 PDF 全能工具箱 · Pure Browser Edition
+  <div class="panel" id="pdf2word" style="display:none">
+    <h2>📕 PDF 转 Word <span class="new-badge">NEW</span></h2>
+    <div class="form-group">
+      <label>选择 PDF 文件</label>
+      <input type="file" id="pdf2wordFile" accept=".pdf,application/pdf">
+    </div>
+    <p class="small">✅ 提取 PDF 文本内容并保存为 .doc 文件（Word 可直接打开）。<br>⚠️ 浏览器版本只还原文本和基础结构，复杂排版请使用本地 EXE 版。</p>
+    <button class="action" id="pdf2wordBtn">转换为 Word</button>
+  </div>
 
-完全免费 · 开源技术栈 · 隐私优先
+  <div class="panel" id="info" style="display:none">
+    <h2>ℹ️ 使用说明</h2>
+    <div style="line-height:1.8">
+      <h3 style="color:#22d3ee;margin-top:15px">🌟 这是什么？</h3>
+      <p>这是 PDF 全能工具箱的 <strong>Pure Browser Edition</strong>（纯浏览器版），全部处理在浏览器内完成，文件不上传到任何服务器。</p>
+
+      <h3 style="color:#22d3ee;margin-top:15px">📦 功能列表（10个）</h3>
+      <ul style="margin-left:20px">
+        <li>📚 <strong>PDF合并</strong> - 把多个PDF合成一个</li>
+        <li>✂️ <strong>PDF拆分</strong> - 每页一个文件 或 按范围拆分</li>
+        <li>🖼️ <strong>PDF转图片</strong> - 逐页导出PNG/JPG</li>
+        <li>📷 <strong>图片转PDF</strong> - 多张图片合成一个PDF</li>
+        <li>🔄 <strong>PDF旋转</strong> - 90°/180°/270° 旋转</li>
+        <li>🔒 <strong>PDF保护</strong> - 浏览器版仅加水印（完整AES加密请用EXE）</li>
+        <li>📝 <strong>文本提取</strong> - 提取PDF中的文本内容</li>
+        <li>📄➡️📕 <strong>Word转PDF</strong> - canvas渲染，保留中文和格式</li>
+        <li>📕➡️📄 <strong>PDF转Word</strong> - 提取文本为 .doc 文件</li>
+        <li>💎 <strong>完整功能</strong>（OCR/真AES加密）请下载 <code>PDF全能工具箱Pro.exe</code></li>
+      </ul>
+
+      <h3 style="color:#22d3ee;margin-top:15px">🔒 隐私</h3>
+      <p>你的文件 <strong>永远不会离开你的电脑</strong>。所有处理都在你的浏览器内存中完成。</p>
+
+      <h3 style="color:#22d3ee;margin-top:15px">⚙️ 技术栈</h3>
+      <ul style="margin-left:20px">
+        <li>PDF-lib (PDF 操作)</li>
+        <li>PDF.js (PDF 解析与渲染)</li>
+        <li>jsPDF (PDF 生成)</li>
+        <li>Mammoth.js (Word 解析)</li>
+        <li>html2canvas (Word→PDF 渲染)</li>
+        <li>100% 客户端运行</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="status" class="status"></div>
+  <div id="progress" class="progress"><div id="progressBar">0%</div></div>
+
+  <footer style="text-align:center;padding:40px 0;color:var(--text-2);font-size:0.9em">
+    <p>💜 PDF 全能工具箱 · Pure Browser Edition</p>
+    <p style="margin-top:8px">完全免费 · 开源技术栈 · 隐私优先</p>
+  </footer>
+</div>
+
+<script>
+// PDF ToolBox - Pure Static Version (No Backend Required)
+// Uses PDF-lib + PDF.js + jsPDF + Mammoth (all loaded via CDN)
+
+(function() {
+  'use strict';
+
+  const App = {
+    loaded: false,
+
+    async init() {
+      if (this.loaded) return;
+      try {
+        if (!window.PDFLib) {
+          await this.loadScript('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js');
+        }
+        if (!window.pdfjsLib) {
+          await this.loadScript('https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js');
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+            'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+        }
+        if (!window.jspdf) {
+          await this.loadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
+        }
+        this.loaded = true;
+        console.log('[PDF ToolBox] All libraries loaded');
+      } catch (e) {
+        console.error('Library load failed:', e);
+        throw e;
+      }
+    },
+
+    loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = src;
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    },
+
+    async loadMammoth() {
+      if (window.mammoth) return window.mammoth;
+      await this.loadScript('https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js');
+      return window.mammoth;
+    },
+
+    showStatus(message, isError) {
+      const status = document.getElementById('status');
+      if (!status) return;
+      status.className = 'status ' + (isError ? 'error' : 'success');
+      status.textContent = message;
+      status.style.display = 'block';
+      setTimeout(() => { status.style.display = 'none'; }, 8000);
+    },
+
+    showProgress(percent, text) {
+      const progress = document.getElementById('progress');
+      const bar = document.getElementById('progressBar');
+      if (!progress || !bar) return;
+      progress.style.display = 'block';
+      bar.style.width = percent + '%';
+      bar.textContent = Math.round(percent) + '% ' + (text || '');
+    },
+
+    hideProgress() {
+      const progress = document.getElementById('progress');
+      if (progress) progress.style.display = 'none';
+    },
+
+    readFileAsArrayBuffer(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+      });
+    },
+
+    downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    },
+
+    // ==================== PDF MERGE ====================
+    async mergePDFs(files) {
+      await this.init();
+      this.showProgress(30, 'Merging...');
+      const PDFLib = window.PDFLib;
+      const mergedPdf = await PDFLib.PDFDocument.create();
+      for (let i = 0; i < files.length; i++) {
+        this.showProgress(30 + (60 * i / files.length), 'File ' + (i + 1) + '/' + files.length);
+        const bytes = await this.readFileAsArrayBuffer(files[i]);
+        const pdf = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+        const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+        pages.forEach(p => mergedPdf.addPage(p));
+      }
+      this.showProgress(95, 'Generating...');
+      const bytes = await mergedPdf.save();
+      this.downloadBlob(new Blob([bytes], { type: 'application/pdf' }), 'merged.pdf');
+      this.showStatus('Merged ' + files.length + ' files successfully');
+      this.hideProgress();
+    },
+
+    // ==================== PDF SPLIT ====================
+    async splitPDF(file, mode, ranges) {
+      await this.init();
+      this.showProgress(20, 'Reading PDF...');
+      const PDFLib = window.PDFLib;
+      const bytes = await this.readFileAsArrayBuffer(file);
+      const pdf = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+      const totalPages = pdf.getPageCount();
+
+      if (mode === 'single') {
+        for (let i = 0; i < totalPages; i++) {
+          this.showProgress(20 + (75 * (i + 1) / totalPages), 'Page ' + (i + 1) + '/' + totalPages);
+          const newPdf = await PDFLib.PDFDocument.create();
+          const [page] = await newPdf.copyPages(pdf, [i]);
+          newPdf.addPage(page);
+          const out = await newPdf.save();
+          this.downloadBlob(new Blob([out], { type: 'application/pdf' }),
+            'page_' + String(i + 1).padStart(3, '0') + '.pdf');
+        }
+        this.showStatus('Split into ' + totalPages + ' files');
+      } else {
+        const parts = ranges.split(',').map(s => s.trim()).filter(Boolean);
+        for (let i = 0; i < parts.length; i++) {
+          this.showProgress(20 + (75 * (i + 1) / parts.length), 'Part ' + (i + 1) + '/' + parts.length);
+          const newPdf = await PDFLib.PDFDocument.create();
+          const indices = [];
+          if (parts[i].includes('-')) {
+            const arr = parts[i].split('-').map(n => parseInt(n.trim()));
+            for (let p = arr[0]; p <= Math.min(arr[1], totalPages); p++) indices.push(p - 1);
+          } else {
+            indices.push(parseInt(parts[i]) - 1);
+          }
+          const pages = await newPdf.copyPages(pdf, indices);
+          pages.forEach(p => newPdf.addPage(p));
+          const out = await newPdf.save();
+          this.downloadBlob(new Blob([out], { type: 'application/pdf' }), 'part_' + (i + 1) + '.pdf');
+        }
+        this.showStatus('Split into ' + parts.length + ' files');
+      }
+      this.hideProgress();
+    },
+
+    // ==================== PDF TO IMAGES ====================
+    async pdfToImages(file, format, dpi) {
+      await this.init();
+      this.showProgress(10, 'Parsing PDF...');
+      const pdfjsLib = window.pdfjsLib;
+      const bytes = await this.readFileAsArrayBuffer(file);
+      const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+      const total = pdf.numPages;
+      const scale = dpi / 72;
+
+      for (let i = 1; i <= total; i++) {
+        this.showProgress(10 + (85 * i / total), 'Page ' + i + '/' + total);
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement('canvas');
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        const ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport }).promise;
+        const mime = format === 'jpg' ? 'image/jpeg' : 'image/png';
+        const dataUrl = canvas.toDataURL(mime, 0.92);
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'page_' + String(i).padStart(3, '0') + '.' + format;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        page.cleanup();
+      }
+      this.showStatus('Converted ' + total + ' pages to ' + format.toUpperCase());
+      this.hideProgress();
+    },
+
+    // ==================== IMAGES TO PDF ====================
+    async imagesToPDF(files) {
+      await this.init();
+      this.showProgress(20, 'Generating PDF...');
+      const PDFLib = window.PDFLib;
+      const pdfDoc = await PDFLib.PDFDocument.create();
+      for (let i = 0; i < files.length; i++) {
+        this.showProgress(20 + (75 * (i + 1) / files.length), 'Image ' + (i + 1) + '/' + files.length);
+        const bytes = await this.readFileAsArrayBuffer(files[i]);
+        let img;
+        if (files[i].type === 'image/jpeg' || files[i].type === 'image/jpg') {
+          img = await pdfDoc.embedJpg(bytes);
+        } else {
+          img = await pdfDoc.embedPng(bytes);
+        }
+        const page = pdfDoc.addPage([595.28, 841.89]);
+        const dims = page.getSize();
+        const scale = Math.min(dims.width / img.width, dims.height / img.height) * 0.95;
+        const w = img.width * scale;
+        const h = img.height * scale;
+        page.drawImage(img, {
+          x: (dims.width - w) / 2,
+          y: (dims.height - h) / 2,
+          width: w,
+          height: h
+        });
+      }
+      const bytes = await pdfDoc.save();
+      this.downloadBlob(new Blob([bytes], { type: 'application/pdf' }), 'images.pdf');
+      this.showStatus('Combined ' + files.length + ' images into PDF');
+      this.hideProgress();
+    },
+
+    // ==================== PDF ROTATE ====================
+    async rotatePDF(file, angle) {
+      await this.init();
+      this.showProgress(30, 'Rotating...');
+      const PDFLib = window.PDFLib;
+      const bytes = await this.readFileAsArrayBuffer(file);
+      const pdf = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+      pdf.getPages().forEach(page => {
+        const current = page.getRotation().angle;
+        page.setRotation((current + angle) % 360);
+      });
+      const out = await pdf.save();
+      this.downloadBlob(new Blob([out], { type: 'application/pdf' }), 'rotated_' + angle + '.pdf');
+      this.showStatus('Rotated by ' + angle + ' degrees');
+      this.hideProgress();
+    },
+
+    // ==================== PDF PROTECT (Browser version: watermark only) ====================
+    async protectPDF(file, password) {
+      await this.init();
+      if (!password) {
+        this.showStatus('Please enter a password', true);
+        return;
+      }
+      const PDFLib = window.PDFLib;
+      const bytes = await this.readFileAsArrayBuffer(file);
+      const pdf = await PDFLib.PDFDocument.load(bytes, { ignoreEncryption: true });
+      pdf.getPages().forEach(page => {
+        page.drawText('PROTECTED - ' + new Date().toLocaleString('zh-CN'), {
+          x: 30, y: 30, size: 8, color: PDFLib.rgb(0.5, 0.5, 0.5), opacity: 0.5
+        });
+      });
+      const out = await pdf.save();
+      this.downloadBlob(new Blob([out], { type: 'application/pdf' }), 'protected.pdf');
+      this.showStatus('Watermark added. For full AES encryption use the desktop EXE version.');
+    },
+
+    // ==================== TEXT EXTRACT ====================
+    async extractText(file) {
+      await this.init();
+      this.showProgress(20, 'Extracting...');
+      const pdfjsLib = window.pdfjsLib;
+      const bytes = await this.readFileAsArrayBuffer(file);
+      const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+      let text = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        this.showProgress(20 + (75 * i / pdf.numPages), 'Page ' + i + '/' + pdf.numPages);
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        text += '\n=== Page ' + i + ' ===\n' + content.items.map(it => it.str).join(' ');
+        page.cleanup();
+      }
+      this.downloadBlob(new Blob([text], { type: 'text/plain;charset=utf-8' }), 'extracted.txt');
+      const resultEl = document.getElementById('extractResult');
+      if (resultEl) {
+        resultEl.textContent = text;
+        resultEl.style.display = 'block';
+      }
+      this.showStatus('Text extracted, ' + pdf.numPages + ' pages');
+      this.hideProgress();
+    },
+
+    // ==================== WORD TO PDF ====================
+    async wordToPDF(file) {
+      await this.init();
+      this.showProgress(10, 'Loading mammoth.js...');
+      const mammoth = await this.loadMammoth();
+
+      this.showProgress(25, 'Parsing Word document...');
+      const arrayBuffer = await this.readFileAsArrayBuffer(file);
+      const result = await mammoth.convertToHtml({ arrayBuffer });
+      const html = result.value;
+
+      if (result.messages.length > 0) {
+        console.warn('Mammoth warnings:', result.messages);
+      }
+
+      this.showProgress(45, 'Rendering to canvas...');
+
+      // 使用 canvas 渲染方式保留中文和样式
+      const canvasContainer = document.createElement('div');
+      // A4 像素尺寸: 595.28pt × 841.89pt, 3 倍 DPI
+      const a4WidthPx = 794;   // ~210mm
+      const a4HeightPx = 1123; // ~297mm
+      canvasContainer.style.cssText =
+        'position:absolute;left:-99999px;top:0;' +
+        'width:' + a4WidthPx + 'px;height:' + a4HeightPx + 'px;' +
+        'background:white;color:black;padding:60px;' +
+        'font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;' +
+        'font-size:14px;line-height:1.7;box-sizing:border-box;overflow:hidden;';
+      canvasContainer.innerHTML = html;
+      document.body.appendChild(canvasContainer);
+
+      // 等字体加载
+      await new Promise(r => setTimeout(r, 300));
+
+      try {
+        // 拆分成多页
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = a4WidthPx;
+        tempCanvas.height = a4HeightPx;
+        const tempCtx = tempCanvas.getContext('2d');
+
+        // 实际内容高度
+        const contentHeight = canvasContainer.scrollHeight;
+        const pageCount = Math.ceil(contentHeight / a4HeightPx);
+
+        // 用 PDF-lib 创建多页 PDF
+        const PDFLib = window.PDFLib;
+        const pdfDoc = await PDFLib.PDFDocument.create();
+
+        for (let pageIdx = 0; pageIdx < pageCount; pageIdx++) {
+          this.showProgress(45 + (50 * (pageIdx + 1) / pageCount),
+            'Page ' + (pageIdx + 1) + '/' + pageCount);
+
+          // 清空并绘制到 canvas
+          tempCtx.fillStyle = '#ffffff';
+          tempCtx.fillRect(0, 0, a4WidthPx, a4HeightPx);
+
+          // 临时复制内容并应用偏移
+          const offset = pageIdx * a4HeightPx;
+          const sourceSlice = document.createElement('div');
+          sourceSlice.style.cssText = canvasContainer.style.cssText +
+            'position:relative;top:-' + offset + 'px;';
+          sourceSlice.innerHTML = html;
+          document.body.appendChild(sourceSlice);
+          await new Promise(r => setTimeout(r, 100));
+
+          // 用 html2canvas 的替代：直接用 canvas 绘制文本（简化版）
+          // 这里使用更简单可靠的方法：使用 jsPDF + html2canvas
+          document.body.removeChild(sourceSlice);
+
+          // 添加 PDF 页
+          const page = pdfDoc.addPage([595.28, 841.89]);
+          // 占位：实际图片嵌入需要 html2canvas
+          page.drawText('Page ' + (pageIdx + 1) + '/' + pageCount, {
+            x: 50, y: 50, size: 10, color: PDFLib.rgb(0.7, 0.7, 0.7)
+          });
+        }
+
+        // 加载 html2canvas
+        if (!window.html2canvas) {
+          await this.loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js');
+        }
+
+        this.showProgress(50, 'Re-rendering with html2canvas...');
+        // 重新生成 canvas 图片（使用 html2canvas 真正保留样式）
+        const newPdfDoc = await PDFLib.PDFDocument.create();
+        const renderedCanvases = [];
+
+        for (let pageIdx = 0; pageIdx < pageCount; pageIdx++) {
+          this.showProgress(50 + (45 * (pageIdx + 1) / pageCount),
+            'Rendering page ' + (pageIdx + 1) + '/' + pageCount);
+
+          const offset = pageIdx * a4HeightPx;
+          // 创建一个克隆进行渲染（指定滚动位置）
+          const renderContainer = document.createElement('div');
+          renderContainer.style.cssText =
+            'position:absolute;left:-99999px;top:0;' +
+            'width:' + a4WidthPx + 'px;' +
+            'background:white;color:black;padding:60px;' +
+            'font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;' +
+            'font-size:14px;line-height:1.7;box-sizing:border-box;';
+          // 内容使用 transform 偏移
+          const inner = document.createElement('div');
+          inner.style.cssText =
+            'transform:translateY(-' + offset + 'px);' +
+            'width:' + (a4WidthPx - 120) + 'px;';
+          inner.innerHTML = html;
+          renderContainer.appendChild(inner);
+          document.body.appendChild(renderContainer);
+
+          await new Promise(r => setTimeout(r, 200));
+
+          const canvas = await window.html2canvas(renderContainer, {
+            backgroundColor: '#ffffff',
+            scale: 1.5,
+            logging: false,
+            useCORS: true
+          });
+          renderedCanvases.push(canvas);
+
+          document.body.removeChild(renderContainer);
+        }
+
+        // 把所有 canvas 嵌入到 PDF
+        this.showProgress(95, 'Building PDF...');
+        for (const canvas of renderedCanvases) {
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          const jpgBytes = await fetch(dataUrl).then(r => r.arrayBuffer());
+          const img = await newPdfDoc.embedJpg(jpgBytes);
+          const page = newPdfDoc.addPage([595.28, 841.89]);
+          page.drawImage(img, {
+            x: 0, y: 0, width: 595.28, height: 841.89
+          });
+        }
+
+        const pdfBytes = await newPdfDoc.save();
+        this.downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), 'word_to_pdf.pdf');
+        this.showStatus('Word converted to PDF successfully (' + renderedCanvases.length + ' pages, with formatting preserved)');
+      } finally {
+        if (document.body.contains(canvasContainer)) {
+          document.body.removeChild(canvasContainer);
+        }
+      }
+      this.hideProgress();
+    },
+
+    // ==================== PDF TO WORD (Browser version: text-only) ====================
+    async pdfToWord(file) {
+      await this.init();
+      this.showProgress(15, 'Reading PDF...');
+      const pdfjsLib = window.pdfjsLib;
+      const bytes = await this.readFileAsArrayBuffer(file);
+      const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+      const total = pdf.numPages;
+
+      let html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+        'xmlns:w="urn:schemas-microsoft-com:office:word" ' +
+        'xmlns="http://www.w3.org/TR/REC-html40">';
+      html += '<head><meta charset="utf-8"><title>Converted</title></head><body>';
+
+      for (let i = 1; i <= total; i++) {
+        this.showProgress(15 + (75 * i / total), 'Page ' + i + '/' + total);
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+
+        // 按 y 坐标分组为行
+        const lines = {};
+        content.items.forEach(item => {
+          const y = Math.round(item.transform[5] / 2) * 2;
+          if (!lines[y]) lines[y] = [];
+          lines[y].push(item);
+        });
+
+        const sortedYs = Object.keys(lines).map(Number).sort((a, b) => b - a);
+
+        sortedYs.forEach(y => {
+          const items = lines[y];
+          // 按 x 排序
+          items.sort((a, b) => a.transform[4] - b.transform[4]);
+          // 判断是否大字号（粗体标题）
+          const fontHeight = Math.abs(items[0].transform[3]);
+          let text = items.map(it => it.str).join(' ').trim();
+          if (!text) return;
+
+          if (fontHeight > 20) html += '<h1>' + text + '</h1>';
+          else if (fontHeight > 16) html += '<h2>' + text + '</h2>';
+          else html += '<p>' + text + '</p>';
+        });
+
+        if (i < total) html += '<p style="page-break-after:always"></p>';
+        page.cleanup();
+      }
+
+      html += '</body></html>';
+
+      this.showProgress(95, 'Saving .doc file...');
+      // 保存为 .doc（用 HTML 格式，Word 可识别）
+      const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+      this.downloadBlob(blob, 'pdf_to_word.doc');
+      this.showStatus('PDF converted to Word (text-only, formatting is simplified)');
+      this.hideProgress();
+    }
+  };
+
+  // ==================== UI Event Bindings ====================
+  function showPanel(panelId) {
+    document.querySelectorAll('.panel').forEach(p => p.style.display = 'none');
+    const el = document.getElementById(panelId);
+    if (el) el.style.display = 'block';
+    document.querySelectorAll('.feature-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.querySelector('[data-feature="' + panelId + '"]');
+    if (btn) btn.classList.add('active');
+  }
+
+  function bindClick(id, handler) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', handler);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    App.init();
+
+    document.querySelectorAll('.feature-btn').forEach(btn => {
+      btn.addEventListener('click', () => showPanel(btn.dataset.feature));
+    });
+
+    bindClick('mergeBtn', async () => {
+      const files = document.getElementById('mergeFiles').files;
+      if (!files.length) { App.showStatus('Please select files', true); return; }
+      try { await App.mergePDFs(Array.from(files)); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    bindClick('splitBtn', async () => {
+      const file = document.getElementById('splitFile').files[0];
+      const mode = document.querySelector('input[name="splitMode"]:checked').value;
+      const ranges = document.getElementById('splitRanges').value.trim();
+      if (!file) { App.showStatus('Please select a file', true); return; }
+      if (mode === 'range' && !ranges) { App.showStatus('Please enter ranges', true); return; }
+      try { await App.splitPDF(file, mode, ranges); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    bindClick('pdf2imgBtn', async () => {
+      const file = document.getElementById('pdf2imgFile').files[0];
+      const format = document.getElementById('imgFormat').value;
+      const dpi = parseInt(document.getElementById('imgDpi').value);
+      if (!file) { App.showStatus('Please select a file', true); return; }
+      try { await App.pdfToImages(file, format, dpi); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    bindClick('img2pdfBtn', async () => {
+      const files = document.getElementById('img2pdfFiles').files;
+      if (!files.length) { App.showStatus('Please select files', true); return; }
+      try { await App.imagesToPDF(Array.from(files)); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    bindClick('rotateBtn', async () => {
+      const file = document.getElementById('rotateFile').files[0];
+      const angle = parseInt(document.querySelector('input[name="rotAngle"]:checked').value);
+      if (!file) { App.showStatus('Please select a file', true); return; }
+      try { await App.rotatePDF(file, angle); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    bindClick('encryptBtn', async () => {
+      const file = document.getElementById('protectFile').files[0];
+      const pwd = document.getElementById('protectPwd').value;
+      if (!file) { App.showStatus('Please select a file', true); return; }
+      try { await App.protectPDF(file, pwd); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    bindClick('extractBtn', async () => {
+      const file = document.getElementById('extractFile').files[0];
+      if (!file) { App.showStatus('Please select a file', true); return; }
+      try { await App.extractText(file); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    bindClick('word2pdfBtn', async () => {
+      const file = document.getElementById('word2pdfFile').files[0];
+      if (!file) { App.showStatus('Please select a file', true); return; }
+      if (!file.name.toLowerCase().endsWith('.docx')) {
+        App.showStatus('Please upload .docx file', true);
+        return;
+      }
+      try { await App.wordToPDF(file); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    bindClick('pdf2wordBtn', async () => {
+      const file = document.getElementById('pdf2wordFile').files[0];
+      if (!file) { App.showStatus('Please select a file', true); return; }
+      try { await App.pdfToWord(file); }
+      catch (e) { App.showStatus('Error: ' + e.message, true); }
+    });
+
+    showPanel('merge');
+  });
+})();
+</script>
+</body>
+</html>
