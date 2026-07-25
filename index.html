@@ -837,22 +837,13 @@
             <div class="plan-price">¥9.9</div>
           </div>
           
-          <div class="plan yearly" data-plan="99" onclick="selectPlan(this)">
-            <div class="plan-icon"><i class="fas fa-calendar-alt"></i></div>
-            <div class="plan-info">
-              <div class="plan-name">年度会员</div>
-              <div class="plan-desc">12个月内无限次使用VIP功能</div>
-            </div>
-            <div class="plan-price">¥99</div>
-          </div>
-          
-          <div class="plan lifetime" data-plan="199" onclick="selectPlan(this)">
+          <div class="plan lifetime highlighted" data-plan="99" onclick="selectPlan(this)">
             <div class="plan-icon"><i class="fas fa-crown"></i></div>
             <div class="plan-info">
               <div class="plan-name">终身会员</div>
               <div class="plan-desc">一次付费，终身使用全部功能</div>
             </div>
-            <div class="plan-price">¥199</div>
+            <div class="plan-price">¥99</div>
           </div>
         </div>
         
@@ -894,7 +885,7 @@
           <div class="plan-name">PDF全能工具箱 Pro</div>
           <div class="plan-desc">含AES加密、OCR、Word互转等全部功能</div>
         </div>
-        <div class="plan-price">¥19.9</div>
+        <div class="plan-price">¥99</div>
       </div>
       
       <div class="email-section">
@@ -1067,10 +1058,10 @@
       const email = document.getElementById('exeEmail').value.trim();
       if (!email || !email.includes('@')) { showToast('请输入有效的邮箱地址', 'error'); return; }
       document.getElementById('exeQrImage').src = 'wechat-qr.jpg?' + Date.now();
-      document.getElementById('exeQrAmount').textContent = '¥19.9';
+      document.getElementById('exeQrAmount').textContent = '¥99';
       document.getElementById('exeQrNote').textContent = email;
       document.getElementById('exeQrSection').style.display = 'block';
-      document.getElementById('exeConfirmBtn').innerHTML = '<i class="fab fa-weixin"></i> 请用微信扫码支付 ¥19.9';
+      document.getElementById('exeConfirmBtn').innerHTML = '<i class="fab fa-weixin"></i> 请用微信扫码支付 ¥99';
       document.getElementById('exeConfirmBtn').disabled = true;
     }
     
